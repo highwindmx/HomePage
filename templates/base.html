@@ -1,0 +1,86 @@
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{% block title%}{% endblock %}</title>
+      <!-- CSS -->
+      <link rel="stylesheet" href="{{url_for('static', filename ='bootstrap-4.3.1-dist/css/bootstrap.min.css')}}" type="text/css">
+      <link rel="stylesheet" href="{{url_for('static', filename ='font-awesome-4.7.0/css/font-awesome.min.css')}}" type="text/css">
+      <link rel="stylesheet" href="{{url_for('static', filename ='selfmade/mystyle.css')}}" type="text/css">
+      <!-- JS -->
+      <script src="{{url_for('static', filename ='jquery-3.4.1.min.js')}}"></script>
+      <script src="{{url_for('static', filename ='bootstrap-4.3.1-dist/js/bootstrap.min.js')}}"></script>
+      <!-- Own JS -->
+      {% block ownscript %}{% endblock %}
+  
+  </head>
+  <body>
+    <!--<div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><i class="fa fa-home" aria-hidden="true"></i>我的主页</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/note"><i class="fa fa-list-alt" aria-hidden="true"></i>我的笔记</a></li>
+                    <li><a href="/search"><i class="fa fa-search" aria-hidden="true"></i>我的搜索</a></li>
+                    <li><a href="/analysis"><i class="fa fa-bar-chart" aria-hidden="true"></i>我的分析</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/"><i class="fa fa-home" aria-hidden="true"></i>我的主页</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/notebook">我的笔记 <i class="fa fa-list-alt" aria-hidden="true"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/search">我的搜索 <i class="fa fa-search" aria-hidden="true"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/analysis">我的分析</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/analysis" id="navbarDropdown" data-toggle="dropdown">
+                <i class="fa fa-bar-chart"></i>  
+              </a>
+              <div class="dropdown-menu">
+                <!--<a class="dropdown-item" href="/dash_saleplot">销量地图(使用Dash)</a>-->
+                <a class="dropdown-item" href="/pyecharts_saleclothes">销量条图(使用pyecharts)</a>
+                <a class="dropdown-item" href="/pyecharts_salemap">销量地图(使用pyecharts)</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">突变热图(未完成)</a>
+                <a class="dropdown-item" href="#">声音辨识(未完成)</a>
+              </div>
+            </li>
+            <!--<li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>-->
+          </ul>
+          {% if issearch %}
+            <form id="form-keywords" class="form-inline my-2 my-lg-0" method="POST" action="{{ url_for('homeSearch') }}">
+              <input class="form-control mr-sm-2" id="formipt-keywords"
+                     name="formi-keywords" value="{{kwvalue}}" type="search" placeholder="请输入查询关键词"/>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">检索</button>
+            </form>
+          {% else %}
+          {% endif %}
+        </div>
+    </nav>
+    {% block container%}
+    {% endblock%}
+  </body>
+</html>

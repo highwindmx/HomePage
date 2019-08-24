@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} ANALYSIS ksmao {% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div>
+          <div id="showDataTable">数据表展为：{{ dtcnt }}条目</div>
+          <div> {{ dtctl|safe }} </div>
+          <!--{% for dtct in dtctl %}
+          {% endfor %}-->
+        </div>
+      </div>
+{% endblock %}

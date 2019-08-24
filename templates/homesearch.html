@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} SEARCH ksmao {% endblock %}
+  
+{% block container %}
+    <div class="container-fluid">
+      
+      <div class="row">
+      
+        <div class="col-md-11"> <!-- bootstrap 布局方式 分12列 以下以11:1分栏 -->
+          <ul class="nav nav-tabs" id="engine-up"> <!-- 上部的搜索是点击一次一并搜索，然后切换tab查看 -->
+            {% for eg in egUl %}
+              <li class="nav-item">
+                <a class="nav-link" id="{{eg}}-tab" data-toggle="tab" href="#{{eg}}-tab-pane">
+                  <img height="24" alt="{{eg}}" title="{{egUd[eg]['title']}}" src="{{url_for('static', filename ='./searchlogos/'+ eg +'.png')}}"/>
+                </a>
+              </li>
+            {% endfor %}
+            <!--<li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>-->
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <!--<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>-->
+            {% for eg in egUl %}
+            <div class="tab-pane fade" id="{{eg}}-tab-pane">
+                <iframe id="{{eg}}-iframe" frameborder="1" scrolling="auto" width="100%" height="600px" src="{{egUd[eg]['url']}}">
+                </iframe>
+            </div>
+            {% endfor %}
+          </div>    
+        </div>
+        
+        <div class="col-md-1"> 
+            <ul class="nav flex-column" id="engine-right" > <!-- 右侧的搜索是点击一次打开一个新标签页 -->
+             {% for eg in egRl %}
+              <li class="nav-item">
+                <a class="nav-link">
+                  <img src="{{url_for('static', filename ='./searchlogos/'+ eg +'.png')}}" style="height:24px"
+                       name="{{eg}}" onclick="submitKWEG(this)"/>
+                    <script type="text/javascript">
+                      function submitKWEG(img) {
+                        //学习使用ajax传输数据（多个form 一并 submit 发出 post）
+                        var egvalue = img.name;
+                        var kwvalue = document.getElementById("formipt-keywords").value;
+                        console.log(egvalue, kwvalue);
+                        $.ajax({
+                          type: "POST",
+                          url: "{{ url_for('homeSearch') }}",
+                          data: JSON.stringify({"engineVal":egvalue, "keywordVal":kwvalue}),
+                          contentType: "application/json; charset=utf-8",
+                          dataType: "json",
+                          success: function (data) {
+                            console.log(666, data); // JSON.stringify(data)
+                          }
+                        });
+                      }
+                    </script>
+                </a>
+              </li>
+             {% endfor %}
+            </ul>
+        </div>
+      
+      </div>
+    
+    </div>
+{% endblock %}

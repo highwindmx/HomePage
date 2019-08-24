@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %} Pyecharts ksmao {% endblock %}
+{% block ownscript %} 
+<script src="{{url_for('static', filename ='pyecharts/echarts.min.js')}}"></script> 
+<script src="{{url_for('static', filename ='pyecharts/map/china.js')}}"></script>
+
+<!--估计除了地图，词云之外还有不少是需要补充assets js的-->
+<!--https://github.com/pyecharts/pyecharts-assets/tree/master/assets-->
+<!--可以通过jupyter notebook render 出一个 html 然后查看其html来核对-->
+<script language="Javascript">
+// toggleClass学习法
+    $(document.onload = function activeTab(){
+            $("#nav-link-2019-3").toggleClass('active'); // 注意需要激活的是a，而不是li
+            $("#tab-pane-2019-3").toggleClass('active');
+        }
+    )
+    var tabsFn = (function() {
+  
+  function init() {
+    setHeight();
+  }
+  
+  function setHeight() {
+    var $tabPane = $('.tab-pane'),
+        tabsHeight = $('.nav-tabs').height();
+    
+    $tabPane.css({
+      height: tabsHeight
+    });
+  }
+    
+  $(init);
+})();
+</script>
+
+<!-- 引入样式 -->
+<link rel="stylesheet" href="{{url_for('static', filename ='pure-release-1.0.1/pure-min.css')}}">
+
+{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <h1>销量地图</h1>
+        <hr>
+        <div class="row">
+            <div class="col-md-2 mb-3">
+                <ul class="nav nav-pills flex-column" id="myTab" role="tablist"> 
+                    <!-- 居然轻轻松松用了一个flex-column把我花了整个下午时间希望找到的垂直tabs模块搞定了╮(╯▽╰)╭ -->
+                    {% for map in maps %}
+                    <li class="nav-item">
+                        <a class="nav-link"  id=nav-link-{{map}} href="#tab-pane-{{map}}" role="tab" data-toggle="tab">{{map}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-10">
+                <div class="tab-content" id="myTabContent">
+                    {% for map in maps %}
+                    <div class="tab-pane  fade show" id=tab-pane-{{map}}>
+                        <div id={{map}} style="width:800px; height:400px;"></div>
+                        <script>
+                            $(
+                                function () {
+                                    var chart = echarts.init(document.getElementById({{map|tojson}}), 'white', {renderer: 'canvas'});
+                                    $.ajax({
+                                        type: "GET",
+                                        url: {{ url_for('get_map_chart', mon=map)|tojson }},
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            chart.setOption(result);
+                                        }
+                                    });
+                                }
+                            )
+                        </script>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

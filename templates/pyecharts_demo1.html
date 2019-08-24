@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} Pyecharts ksmao {% endblock %}
+{% block ownscript %} <script src="{{url_for('static', filename ='echarts.min.js')}}"></script> {% endblock %}
+
+{% block container %}
+    <div class="container">
+    <!--<div class="page-header">
+            <h1>Hello, {{ name }}!</h1>
+        </div>-->
+    <!--<form method="POST" action="./add">
+          <input type="text" name="title">
+          <input type="submit" value="Add">
+        </form>-->
+    <!--<h1>Notes</h1>-->
+        <div>
+            <div id="bar" style="width:1000px; height:600px;"></div>
+            <script>
+                $(
+                    function () {
+                        var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+                        $.ajax({
+                            type: "GET",
+                            url: {{ url_for('get_bar_chart')|tojson }},//"http://localhost:5000/barChart",
+                            dataType: 'json',
+                            success: function (result) {
+                                chart.setOption(result);
+                            }
+                        });
+                    }
+                )
+            </script>
+        </div>
+    </div>
+{% endblock %}

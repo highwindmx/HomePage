@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} HOMEPAGE ksmao {% endblock %}
+
+{% block container %}
+    <div class="container">
+    <!--<div class="page-header">
+            <h1>Hello, {{ name }}!</h1>
+        </div>-->
+    <!--<form method="POST" action="./add">
+          <input type="text" name="title">
+          <input type="submit" value="Add">
+        </form>-->
+    <!--<h1>Notes</h1>-->
+        <div>
+          <div id="showrefreshtime">刷新时间是：{{rftime}}</div>
+          <div id="shownowtime">现在时间</div>
+          <script language="Javascript">
+            // 学习用JavaScript更新时钟
+              $(document.onload = function givenowtime(){
+                  //获得显示时间的div
+                  t_div = document.getElementById('shownowtime');
+                  var now=new Date();
+                  //替换div内容 
+                  t_div.innerHTML = "现在时间是："
+                                  +now.getFullYear() +"年"+("0" + (now.getMonth() + 1)).slice(-2)+"月"+("0" + now.getDate()).slice(-2)+"日 "
+                                  +("0" + now.getHours()).slice(-2)+":"+("0" + now.getMinutes()).slice(-2)+":"+("0" + now.getSeconds()).slice(-2);
+                                  // 为了让不足两位的格式能够补齐，js也真是够了。。。             
+                  //等待一秒钟后调用givetime方法，由于settimeout在time方法内，所以可以无限调用
+                  setTimeout(givenowtime,1000);}
+              )
+            </script>
+        </div>
+    </div>
+{% endblock %}
